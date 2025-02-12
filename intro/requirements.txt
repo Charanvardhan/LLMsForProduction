@@ -1,0 +1,17 @@
+deeplake==3.6.19
+openai==0.27.8
+tiktoken==0.4.0
+transformers==4.32.0
+torch==2.2.0
+numpy
+deepspeed==0.10.1
+trl
+peft==0.5.0
+wandb==0.15.8
+bitsandbytes==0.41.1
+accelerate==0.22.0
+tqdm==4.66.1
+neural_compressor==2.2.1
+onnx
+pandas==2.0.3 
+scipy
