@@ -1,24 +1,20 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+import torch
 
-from transformers import GPT2Tokenizer, GPT2Model
-tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
-model = GPT2Model.from_pretrained('gpt2')
-text = "Replace me by any text you'd like."
-encoded_input = tokenizer(text, return_tensors='pt')
-output = model(**encoded_input)
+model_path = "/Users/charanmannuru/Projects/LLMsForProduction/llama-3.2-local"
 
+device = "mps" if torch.backends.mps.is_available() else "cpu"
 
+tokenizer = AutoTokenizer.from_pretrained(model_path)
 
-# # Choose the model (Example: LLaMA 3 - 8B)
-# model_name = "meta-llama/Meta-Llama-3-8B"
+model = AutoModelForCausalLM.from_pretrained(
+    model_path,
+    torch_dtype = torch.float16,
+    device_map = {"" : device}
+)
 
-# # Load tokenizer & model
-# tokenizer = AutoTokenizer.from_pretrained(model_name)
-# model = AutoModelForCausalLM.from_pretrained(model_name, device_map="auto")
+input = "future of ai"
+tokens = tokenizer(input, return_tensors="pt").to(device)
 
-# # Create a pipeline for text generation
-# pipe = pipeline("text-generation", model=model, tokenizer=tokenizer)
-
-# # Example query
-# response = pipe("Translate 'Hello, how are you?' to French.", max_length=100)
-# print(response[0]['generated_text'])
+output = model.generate(**tokens, max_length=50)
+print(tokenizer.decode(output[0], skip_special_tokens=True))

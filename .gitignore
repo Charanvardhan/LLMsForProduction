@@ -1,6 +1,8 @@
 llama-3.2-local/
 
-intro/openai.env
+# Ignore all .env files
+*.env
+
 
 *.safetensors
 *.pth
