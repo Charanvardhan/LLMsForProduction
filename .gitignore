@@ -1,0 +1,14 @@
+llama-3.2-local/
+
+intro/openai.env
+
+*.safetensors
+*.pth
+*.bin
+*.ckpt
+*.h5
+
+# Ignore cache directories
+__pycache__/
+.ipynb_checkpoints/
+cache/
