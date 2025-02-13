@@ -13,7 +13,7 @@ model = AutoModelForCausalLM.from_pretrained(
     device_map = {"" : device}
 )
 
-input = "future of ai"
+input = input()
 tokens = tokenizer(input, return_tensors="pt").to(device)
 
 output = model.generate(**tokens, max_length=50)
