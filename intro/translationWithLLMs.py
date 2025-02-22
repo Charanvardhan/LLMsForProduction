@@ -16,5 +16,5 @@ model = AutoModelForCausalLM.from_pretrained(
 input = input()
 tokens = tokenizer(input, return_tensors="pt").to(device)
 
-output = model.generate(**tokens, max_length=50)
+output = model.generate(**tokens, max_length=100)
 print(tokenizer.decode(output[0], skip_special_tokens=True))
