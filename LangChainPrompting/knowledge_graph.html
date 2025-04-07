@@ -283,7 +283,7 @@ function highlightFilter(filter) {
 
                   // parsing and collecting nodes and edges from the python
                   nodes = new vis.DataSet([{"color": "#97c2fc", "id": "Paris", "label": "Paris", "shape": "dot"}, {"color": "#97c2fc", "id": "France", "label": "France", "shape": "dot"}, {"color": "#97c2fc", "id": "Eiffel Tower", "label": "Eiffel Tower", "shape": "dot"}]);
-                  edges = new vis.DataSet([{"from": "Paris", "label": "is the capital of", "to": "France"}, {"from": "Eiffel Tower", "label": "is a famous landmark in", "to": "Paris"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "Paris", "label": "is the capital of", "to": "France"}, {"arrows": "to", "from": "Paris", "label": "is the most populous city of", "to": "France"}, {"arrows": "to", "from": "Eiffel Tower", "label": "is a famous landmark in", "to": "Paris"}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });
@@ -313,7 +313,7 @@ function highlightFilter(filter) {
         "hideNodesOnDrag": false
     },
     "physics": {
-        "enabled": false,
+        "enabled": true,
         "stabilization": {
             "enabled": true,
             "fit": true,
