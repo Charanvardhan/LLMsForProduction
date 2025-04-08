@@ -3,7 +3,7 @@ llama-3.2-local/
 # Ignore all .env files
 *.env
 intro/openai.env
-
+*ch.json
 
 *.safetensors
 *.pth
