@@ -12,10 +12,11 @@ import re
 from dotenv import load_dotenv
 load_dotenv()
 
+dataset_path= os.environ.get('DEEPLAKE_DATASET_PATH')
 
-my_activeloop_org_id = "charanvardhan"
-my_activeloop_dataset_name = "VoiceAssistant-embeddings"
-dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
+# my_activeloop_org_id = "charanvardhan"
+# my_activeloop_dataset_name = "VoiceAssistant-embeddings"
+# dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
 embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
@@ -103,8 +104,8 @@ def main():
 
     texts = split_docs(docs)
 
-    # db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
-    # db.add_documents(texts)
+    db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
+    db.add_documents(texts)
     os.remove(filename)
     
 

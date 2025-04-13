@@ -21,10 +21,6 @@ openai.api_key = os.environ.get('OPENAI_API_KEY')
 eleven_api_key = os.environ.get('ELEVEN_API_KEY')
 active_loop_data_set_path = os.environ.get('DEEPLAKE_DATASET_PATH')
 
-print("OpenAI Key:", os.environ.get('OPENAI_API_KEY'))
-print("Eleven Labs Key:", os.environ.get('ELEVEN_API_KEY'))
-print("DeepLake Path:", os.environ.get('DEEPLAKE_DATASET_PATH'))
-
 def load_embeddings(dataset_path):
     embeddings = OpenAIEmbeddings()
     db = DeepLake(dataset_path=dataset_path, read_only=True, embedding_function=embeddings)
@@ -41,8 +37,8 @@ def transcribe_audio_to_text(audio_file):
                 file=f,
                 response_format="text"
             )
-
-        return response["text"]
+        # print(type(response, " response"))
+        return response
     except Exception as e:
         print(f"Error transcribing audio: {e}")
         return None
@@ -58,6 +54,7 @@ def record_and_transcribe():
             f.write(audioBytes)
 
         if st.button("Transcribe"):
+            print("Transcribing audio... type: ", type(TempAudioFile))
             transcription = transcribe_audio_to_text(TempAudioFile)
             os.remove(TempAudioFile)
             display_transcription(transcription)
@@ -84,7 +81,7 @@ def search_db(user_input, db):
     retriever.search_kwargs['distance_metric'] = 'cos'
     retriever.search_kwargs['fetch_k'] = 100
     retriever.search_kwargs['maximal_marginal_relevance'] = True
-    retriever.search_kwargs['k'] = 10
+    retriever.search_kwargs['k'] = 2
     model = ChatOpenAI(model='gpt-3.5-turbo')
     qa = RetrievalQA.from_llm(model, retriever=retriever, return_source_documents=True)
     return qa({'query': user_input})
@@ -109,7 +106,6 @@ def main():
    
     # Load embeddings and the DeepLake database
     db = load_embeddings(active_loop_data_set_path)
-
     # Record and transcribe audio
     transcription = record_and_transcribe()
 
@@ -125,7 +121,8 @@ def main():
     # Search the database for a response based on user input and update session state
     if user_input:
         output = search_db(user_input, db)
-        print(output['source_documents'])
+        print(len(output["source_documents"]))
+        # print(output['source_documents'])
         st.session_state.past.append(user_input)
         response = str(output["result"])
         st.session_state.generated.append(response)
